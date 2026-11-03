@@ -2,6 +2,7 @@
 
 namespace ArtistNinja\Http\Controllers;
 
+use ArtistNinja\Branding;
 use ArtistNinja\Models\PhotographyBooking;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
@@ -18,7 +19,10 @@ class PortalController extends Controller
             ->latest()
             ->first();
 
-        return view('artist-ninja::portal', ['booking' => $booking]);
+        return view('artist-ninja::portal', [
+            'booking' => $booking,
+            'branding' => Branding::contact($contact),
+        ]);
     }
 
 }

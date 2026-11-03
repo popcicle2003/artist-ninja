@@ -4,7 +4,7 @@ use ArtistNinja\Http\Controllers\OnboardingController;
 use ArtistNinja\Http\Controllers\PortalController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(config('artist-ninja.middleware', ['web']))
+Route::middleware(array_merge(config('artist-ninja.middleware', ['web']), ['domain_db', 'locale']))
     ->prefix(config('artist-ninja.route_prefix', 'artist-ninja'))
     ->as('artist-ninja.')
     ->group(function (): void {
