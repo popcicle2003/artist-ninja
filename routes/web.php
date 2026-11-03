@@ -14,7 +14,7 @@ Route::middleware(array_merge(config('artist-ninja.middleware', ['web']), ['doma
         Route::get('/onboarding/thanks', [OnboardingController::class, 'thanks'])->name('onboarding.thanks');
     });
 
-Route::middleware(['web', 'auth', 'domain_db', 'locale'])
+Route::middleware(['web', 'domain_db', 'locale', 'auth:web'])
     ->prefix(config('artist-ninja.route_prefix', 'artist-ninja') . '/admin')
     ->as('artist-ninja.admin.')
     ->group(function (): void {
