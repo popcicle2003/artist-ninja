@@ -15,6 +15,8 @@
         .eyebrow { color: #68748a; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
         h1 { margin: 8px 0 10px; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.05; }
         .intro { color: #68748a; margin: 0 0 32px; }
+        .availability { background: #f5f7fb; border: 1px solid #e3e8f0; border-radius: 8px; margin-bottom: 24px; padding: 16px; }
+        .availability a { color: var(--artist-primary); font-weight: 700; }
         form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
         label { display: grid; gap: 8px; color: #344054; font-size: .9rem; font-weight: 650; }
         input, select, textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; background: #fff; color: #172033; font: inherit; padding: 12px 13px; }
@@ -44,6 +46,13 @@
                 @foreach ($errors->all() as $error)
                     <div>{{ $error }}</div>
                 @endforeach
+            </div>
+        @endif
+        @if ($booking_url)
+            <div class="availability">
+                <strong>Check availability</strong>
+                <div class="intro" style="margin: 6px 0 0">Choose an available date in the booking calendar, then enter it below.</div>
+                <a href="{{ $booking_url }}" target="_blank" rel="noopener">Open booking calendar →</a>
             </div>
         @endif
         <form method="post" action="{{ route('artist-ninja.onboarding.store') }}">

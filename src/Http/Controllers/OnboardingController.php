@@ -18,6 +18,7 @@ class OnboardingController extends Controller
         return view('artist-ninja::onboarding', [
             'packages' => PhotographyPackage::query()->where('active', true)->orderBy('name')->get(),
             'branding' => Branding::public(),
+            'booking_url' => config('artist-ninja.booking_url'),
         ]);
     }
 
