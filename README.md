@@ -56,6 +56,20 @@ The onboarding and portal pages inherit the active company's logo, primary color
 
 After installation, sign in to the normal Invoice Ninja admin account and open `/artist-ninja/admin/packages`. Create, edit, archive, and delete packages there. Packages with existing bookings are archived instead of deleted.
 
+Some newer Invoice Ninja installations authenticate the admin SPA through API state rather than a Laravel session. For those installations, configure a separate Artist Ninja admin key in the container:
+
+```dotenv
+ARTIST_NINJA_ADMIN_KEY=generate-a-long-random-secret
+```
+
+Then open the package manager once with:
+
+```text
+/artist-ninja/admin/packages?key=generate-a-long-random-secret
+```
+
+The key creates a session flag for your browser so you can navigate the package manager without repeating it. Prefer a long random value, use HTTPS, and do not share the URL publicly. Clear the session by logging out or clearing the site cookies.
+
 For Google Appointment Schedules, add the public booking page URL to the container environment:
 
 ```dotenv

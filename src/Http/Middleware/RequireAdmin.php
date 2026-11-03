@@ -11,12 +11,25 @@ class RequireAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
+        $configuredKey = (string) config('artist-ninja.admin_key');
+        $providedKey = (string) ($request->query('key') ?: $request->bearerToken());
+
+        if ($configuredKey !== '' && $providedKey !== '' && hash_equals($configuredKey, $providedKey)) {
+            $request->session()->put('artist_ninja_admin', true);
+
+            return $next($request);
+        }
+
+        if ($request->session()->get('artist_ninja_admin') === true) {
+            return $next($request);
+        }
+
         $authenticated = Auth::guard('user')->check()
             || Auth::guard('web')->check()
             || Auth::check();
 
         if (! $authenticated) {
-            return redirect('/');
+            abort(403, 'Artist Ninja admin access requires an authenticated Invoice Ninja session or admin key.');
         }
 
         return $next($request);
