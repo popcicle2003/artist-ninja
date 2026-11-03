@@ -19,7 +19,8 @@ Route::middleware(['web', 'domain_db', 'locale', RequireAdmin::class])
     ->prefix(config('artist-ninja.route_prefix', 'artist-ninja') . '/admin')
     ->as('artist-ninja.admin.')
     ->group(function (): void {
-        Route::resource('packages', PackageController::class)->except(['show']);
+        Route::get('packages', [PackageController::class, 'index'])->name('packages.index');
+        Route::resource('packages', PackageController::class)->except(['show', 'index']);
     });
 
 Route::middleware(['auth:contact', 'locale', 'domain_db', 'check_client_existence'])

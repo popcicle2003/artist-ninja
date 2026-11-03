@@ -68,6 +68,16 @@ Then open the package manager once with:
 /artist-ninja/admin/packages?key=generate-a-long-random-secret
 ```
 
+If the page returns 404 after updating, clear the installed package and route caches, then verify the route:
+
+```bash
+composer update popcicle2003/artist-ninja --with-dependencies
+php artisan optimize:clear
+php artisan route:list --path=artist-ninja
+```
+
+The route list should include `artist-ninja/admin/packages`.
+
 The key creates a session flag for your browser so you can navigate the package manager without repeating it. Prefer a long random value, use HTTPS, and do not share the URL publicly. Clear the session by logging out or clearing the site cookies.
 
 For Google Appointment Schedules, add the public booking page URL to the container environment:
