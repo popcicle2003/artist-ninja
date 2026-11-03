@@ -8,6 +8,7 @@ Artist Ninja is a standalone Laravel package for self-hosted Invoice Ninja. Vers
 - An Invoice Ninja API client for creating clients and quotes.
 - A portal-facing booking page with appointment status.
 - External delivery and Pixpa proofing links.
+- Invoice Ninja company branding on onboarding and portal pages.
 
 Large media files are intentionally not stored in Invoice Ninja or Artist Ninja. Store media with Pixpa, object storage, or a dedicated delivery provider, then publish protected links through `artist_ninja_deliveries`.
 
@@ -34,9 +35,21 @@ The initial routes are:
 
 - `GET /artist-ninja/onboarding`
 - `POST /artist-ninja/onboarding`
-- `GET /artist-ninja/portal/{booking}`
+- `GET /client/artist-ninja/`
 
-The portal route is deliberately a small integration surface in v1. The next integration step is to register it inside Invoice Ninja's authenticated contact portal and replace the numeric booking URL with a signed, contact-scoped route.
+The client route uses Invoice Ninja's `contact` guard and only loads the latest booking whose `invoice_ninja_client_id` matches the logged-in contact's client. It is safe to link from the authenticated portal at:
+
+```text
+https://your-invoice-ninja-domain.example/client/artist-ninja/
+```
+
+The package cannot add a navigation item to Invoice Ninja's core Blade layout without modifying the host application. To expose it in the portal menu, add a link to the host's client navigation component:
+
+```blade
+<a href="{{ route('client.artist-ninja.portal') }}">Photography</a>
+```
+
+The onboarding and portal pages inherit the active company's logo, primary color, Open Sans font, and self-hosted portal custom CSS. After updating the package in the Invoice Ninja container, run `php artisan optimize:clear`.
 
 ## Current boundaries
 

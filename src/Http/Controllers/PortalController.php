@@ -2,18 +2,27 @@
 
 namespace ArtistNinja\Http\Controllers;
 
+use ArtistNinja\Branding;
 use ArtistNinja\Models\PhotographyBooking;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
 
 class PortalController extends Controller
 {
-    public function show(int $booking): View
+    public function currentClient(): View
     {
-        $record = PhotographyBooking::query()
-            ->with(['package', 'deliveries'])
-            ->findOrFail($booking);
+        $contact = auth()->guard('contact')->user();
 
-        return view('artist-ninja::portal', ['booking' => $record]);
+        $booking = PhotographyBooking::query()
+            ->with(['package', 'deliveries'])
+            ->where('invoice_ninja_client_id', (string) $contact->client_id)
+            ->latest()
+            ->first();
+
+        return view('artist-ninja::portal', [
+            'booking' => $booking,
+            'branding' => Branding::contact($contact),
+        ]);
     }
+
 }

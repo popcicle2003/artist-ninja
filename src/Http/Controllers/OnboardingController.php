@@ -3,6 +3,7 @@
 namespace ArtistNinja\Http\Controllers;
 
 use ArtistNinja\InvoiceNinjaClient;
+use ArtistNinja\Branding;
 use ArtistNinja\Models\PhotographyBooking;
 use ArtistNinja\Models\PhotographyPackage;
 use Illuminate\Http\RedirectResponse;
@@ -16,6 +17,7 @@ class OnboardingController extends Controller
     {
         return view('artist-ninja::onboarding', [
             'packages' => PhotographyPackage::query()->where('active', true)->orderBy('name')->get(),
+            'branding' => Branding::public(),
         ]);
     }
 
