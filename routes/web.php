@@ -3,6 +3,7 @@
 use ArtistNinja\Http\Controllers\OnboardingController;
 use ArtistNinja\Http\Controllers\PackageController;
 use ArtistNinja\Http\Controllers\PortalController;
+use ArtistNinja\Http\Middleware\RequireAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(array_merge(config('artist-ninja.middleware', ['web']), ['domain_db', 'locale']))
@@ -14,7 +15,7 @@ Route::middleware(array_merge(config('artist-ninja.middleware', ['web']), ['doma
         Route::get('/onboarding/thanks', [OnboardingController::class, 'thanks'])->name('onboarding.thanks');
     });
 
-Route::middleware(['web', 'domain_db', 'locale', 'auth:user'])
+Route::middleware(['web', 'domain_db', 'locale', RequireAdmin::class])
     ->prefix(config('artist-ninja.route_prefix', 'artist-ninja') . '/admin')
     ->as('artist-ninja.admin.')
     ->group(function (): void {
