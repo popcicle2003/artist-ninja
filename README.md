@@ -36,6 +36,7 @@ The initial routes are:
 - `GET /artist-ninja/onboarding`
 - `POST /artist-ninja/onboarding`
 - `GET /client/artist-ninja/`
+- `GET /artist-ninja/admin/packages`
 
 The client route uses Invoice Ninja's `contact` guard and only loads the latest booking whose `invoice_ninja_client_id` matches the logged-in contact's client. It is safe to link from the authenticated portal at:
 
@@ -50,6 +51,18 @@ The package cannot add a navigation item to Invoice Ninja's core Blade layout wi
 ```
 
 The onboarding and portal pages inherit the active company's logo, primary color, Open Sans font, and self-hosted portal custom CSS. After updating the package in the Invoice Ninja container, run `php artisan optimize:clear`.
+
+## Packages and scheduling
+
+After installation, sign in to the normal Invoice Ninja admin account and open `/artist-ninja/admin/packages`. Create, edit, archive, and delete packages there. Packages with existing bookings are archived instead of deleted.
+
+For Google Appointment Schedules, add the public booking page URL to the container environment:
+
+```dotenv
+ARTIST_NINJA_BOOKING_URL=https://calendar.google.com/calendar/appointments/...
+```
+
+Artist Ninja displays a link to that calendar during onboarding. Google remains the source of truth for availability and booking; the submitted preferred start/end time is stored with the Artist Ninja booking request.
 
 ## Current boundaries
 
